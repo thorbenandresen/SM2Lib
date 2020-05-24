@@ -1,20 +1,11 @@
 //
 //  SM2.swift
-//  srs
+//  SM2Lib
 //
 //  Created by THORBEN ANDRESEN on 5/6/20.
 //
 
 import Foundation
-
-/**  Grades from SuperMemo Algorithm
- * 0 - complete blackout.
- * 1 - incorrect response; the correct one remembered
- * 2 - incorrect response; where the correct one seemed easy to recall
- * 3 - correct response recalled with serious difficulty
- * 4 - correct response after a hesitation
- * 5 - perfect response
- */
 
 public enum SM2Error: Error, LocalizedError {
     case gradeOutOfRange(Int)
@@ -26,8 +17,17 @@ public enum SM2Error: Error, LocalizedError {
         }
     }
     
-    
 }
+
+
+/**  Grades from SuperMemo Algorithm
+ * 0 - complete blackout.
+ * 1 - incorrect response; the correct one remembered
+ * 2 - incorrect response; where the correct one seemed easy to recall
+ * 3 - correct response recalled with serious difficulty
+ * 4 - correct response after a hesitation
+ * 5 - perfect response
+ */
 
 public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
     /// complete blackout.
@@ -46,17 +46,17 @@ public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
    public var description: String {
         switch self {
         case .null:
-            return NSLocalizedString("Complete blackout", comment: "")
+            return NSLocalizedString("0 - Complete blackout", comment: "")
         case .bad:
-            return NSLocalizedString("Incorrect response; the correct one remembered", comment: "")
+            return NSLocalizedString("1 - Incorrect response; the correct one remembered", comment: "")
         case .fail:
-            return NSLocalizedString("Incorrect response; where the correct one seemed easy to recall", comment: "")
+            return NSLocalizedString("2 - Incorrect response; where the correct one seemed easy to recall", comment: "")
         case .pass:
-            return NSLocalizedString("Correct response recalled with serious difficulty", comment: "")
+            return NSLocalizedString("3 - Correct response recalled with serious difficulty", comment: "")
         case .good:
-            return NSLocalizedString("Correct response after a hesitation", comment: "")
+            return NSLocalizedString("4 - Correct response after a hesitation", comment: "")
         case .bright:
-            return NSLocalizedString("Perfect response", comment: "")
+            return NSLocalizedString("5 - Perfect response", comment: "")
             
         }
     }
@@ -163,7 +163,7 @@ public struct SM2Engine {
     }
 }
 
-//  1 - TimeIntervals are used instead of Calender calculations because the algorithm calculates timer intervals and does not care about dates.
+//  1 - Time intervals are used instead of calender calculations because the algorithm does not care about dates.
 
 
 
