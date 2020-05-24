@@ -16,6 +16,19 @@ import Foundation
  * 5 - perfect response
  */
 
+public enum SM2Error: Error, LocalizedError {
+    case gradeOutOfRange(Int)
+    
+    public var errorDescription: String? {
+        switch self {
+        case .gradeOutOfRange(let grade):
+            return "Grade \(grade) is out of range"
+        }
+    }
+    
+    
+}
+
 public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
     /// complete blackout.
     case null
