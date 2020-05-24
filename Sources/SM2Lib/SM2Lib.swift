@@ -46,17 +46,17 @@ public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
    public var description: String {
         switch self {
         case .null:
-            return NSLocalizedString("0 - Complete blackout", comment: "")
+            return NSLocalizedString("complete blackout", comment: "")
         case .bad:
-            return NSLocalizedString("1 - Incorrect response; the correct one remembered", comment: "")
+            return NSLocalizedString("incorrect response; the correct one remembered", comment: "")
         case .fail:
-            return NSLocalizedString("2 - Incorrect response; where the correct one seemed easy to recall", comment: "")
+            return NSLocalizedString("incorrect response; where the correct one seemed easy to recall", comment: "")
         case .pass:
-            return NSLocalizedString("3 - Correct response recalled with serious difficulty", comment: "")
+            return NSLocalizedString("correct response recalled with serious difficulty", comment: "")
         case .good:
-            return NSLocalizedString("4 - Correct response after a hesitation", comment: "")
+            return NSLocalizedString("correct response after a hesitation", comment: "")
         case .bright:
-            return NSLocalizedString("5 - Perfect response", comment: "")
+            return NSLocalizedString("perfect response", comment: "")
             
         }
     }
