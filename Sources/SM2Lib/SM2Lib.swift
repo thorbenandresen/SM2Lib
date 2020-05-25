@@ -66,25 +66,25 @@ public protocol SM2GradeDataType {
     var repetition: Int { get }
     var interval: Int { get }
     var easinessFactor: Double { get }
-    var previousDate: TimeInterval { get }
-    var nextDate: TimeInterval { get }
+    var previousDate: TimeInterval? { get }
+    var nextDate: TimeInterval? { get }
 }
 
 public struct SM2GradeData: SM2GradeDataType {
-    public var repetition = 0
-    public var interval = 0
-    public var easinessFactor = 2.5
-    public var previousDate = Date().timeIntervalSince1970
-    public var nextDate = Date().timeIntervalSince1970
+    public var repetition: Int
+    public var interval: Int
+    public var easinessFactor: Double
+    public var previousDate: TimeInterval?
+    public var nextDate: TimeInterval?
     
-    public init() {}
+//    public init() {}
     
     public init(
-        repetition: Int,
-        interval: Int,
-        easinessFactor: Double,
-        previousDate: TimeInterval,
-        nextDate: TimeInterval
+        repetition: Int = 0,
+        interval: Int = 0,
+        easinessFactor: Double = 2.5,
+        previousDate: TimeInterval? = nil,
+        nextDate: TimeInterval? = nil
     ) {
         self.repetition = repetition
         self.interval = interval
@@ -106,19 +106,22 @@ public struct SM2Engine {
         var easinessFactor = 1.3
         var repetition: Int
         var interval: Int
-        var previousDate: TimeInterval
+        var previousDate: TimeInterval?
         var nextDate: TimeInterval
 
         if cardGrade < 3 {
             repetition = 0
             interval = 0
+            easinessFactor = gradeData.easinessFactor
         } else {
-            let qualityFactor = Double(maxGrade - cardGrade) // CardGrade.bright.rawValue - grade
             
             // Easiness Factor
+            let qualityFactor = Double(maxGrade - cardGrade) // CardGrade.bright.rawValue - grade
+
             let newEasinessFactor = gradeData.easinessFactor + (0.1 - qualityFactor * (0.08 + qualityFactor * 0.02))
+
             if newEasinessFactor < easinessFactor {
-                easinessFactor = gradeData.easinessFactor
+               // easinessFactor = gradeData.easinessFactor
             } else {
                 easinessFactor = newEasinessFactor
             }
@@ -148,7 +151,12 @@ public struct SM2Engine {
         let dayMultiplier = seconds * minutes * hours // 1
         let extraDays = dayMultiplier * interval
         let newNextDatetime = currentDatetime + Double(extraDays)
-        previousDate = gradeData.nextDate
+        
+        //var previousDate: TimeInterval?
+        if let nextDate = gradeData.nextDate {
+           previousDate = nextDate
+        }
+        
         nextDate = newNextDatetime
         
         let gradeData = SM2GradeData(
