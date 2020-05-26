@@ -9,16 +9,15 @@ import Foundation
 
 public enum SM2Error: Error, LocalizedError {
     case gradeOutOfRange(Int)
-    
+
     public var errorDescription: String? {
         switch self {
         case .gradeOutOfRange(let grade):
             return "Grade \(grade) is out of range"
         }
     }
-    
-}
 
+}
 
 /**  Grades from SuperMemo Algorithm
  * 0 - complete blackout.
@@ -28,8 +27,6 @@ public enum SM2Error: Error, LocalizedError {
  * 4 - correct response after a hesitation
  * 5 - perfect response
  */
-
-
 public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
     /// complete blackout.
     case null
@@ -43,7 +40,7 @@ public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
     case good
     /// perfect response
     case bright
-    
+
    public var description: String {
         switch self {
         case .null:
@@ -58,11 +55,10 @@ public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
             return NSLocalizedString("correct response after a hesitation", comment: "")
         case .bright:
             return NSLocalizedString("perfect response", comment: "")
-            
+
         }
     }
 }
-
 
 public protocol SM2GradeDataType {
     var repetition: Int { get }
@@ -72,14 +68,13 @@ public protocol SM2GradeDataType {
     var nextDate: TimeInterval { get }
 }
 
-
 public struct SM2GradeData: SM2GradeDataType {
     public var repetition: Int
     public var interval: Int
     public var easinessFactor: Double
     public var previousDate: TimeInterval
     public var nextDate: TimeInterval
-    
+
     public init(
         repetition: Int = 0,
         interval: Int = 0,
@@ -87,37 +82,36 @@ public struct SM2GradeData: SM2GradeDataType {
         previousDate: TimeInterval? = nil,
         nextDate: TimeInterval? = nil
     ) {
-        
+
         let currentDate = Date().timeIntervalSince1970
-        
+
         self.repetition = repetition
         self.interval = interval
         self.easinessFactor = easinessFactor
-        
+
         if
             let previousDate = previousDate,
             let nextDate = nextDate {
-            
+
             self.previousDate = previousDate
             self.nextDate = nextDate
-            
+
         } else {
             self.previousDate = currentDate
                self.nextDate = currentDate
         }
-        
-   
+
     }
 }
 
 public struct SM2Engine {
-    
+
     /// Max Grade `Grade.bright`
     /// The default value is 5
     public static func gradeFlashCard(gradeData: SM2GradeDataType, grade: SM2Grade, currentDatetime: TimeInterval, maxGrade: Int = 5) -> SM2GradeDataType {
-        
+
         let cardGrade = grade.rawValue
-        
+
         // The default value is 1.3
         var easinessFactor = 1.3
         var repetition: Int
@@ -130,7 +124,7 @@ public struct SM2Engine {
             interval = 0
             easinessFactor = gradeData.easinessFactor
         } else {
-            
+
             // Easiness Factor
             let qualityFactor = Double(maxGrade - cardGrade) // CardGrade.bright.rawValue - grade
 
@@ -141,10 +135,10 @@ public struct SM2Engine {
             } else {
                 easinessFactor = newEasinessFactor
             }
-            
+
             // Repetition
             repetition = gradeData.repetition + 1
-            
+
             // Interval
             switch repetition {
             case 1:
@@ -156,22 +150,21 @@ public struct SM2Engine {
                 interval = Int(newInterval)
             }
         }
-        
+
         if cardGrade == 3 {
             interval = 0
         }
-        
+
         let seconds = 60
         let minutes = 60
         let hours = 24
         let dayMultiplier = seconds * minutes * hours // 1
         let extraDays = dayMultiplier * interval
         let newNextDatetime = currentDatetime + Double(extraDays)
-        
-  
+
         previousDate = gradeData.nextDate
         nextDate = newNextDatetime
-        
+
         let gradeData = SM2GradeData(
             repetition: repetition,
             interval: interval,
@@ -179,12 +172,9 @@ public struct SM2Engine {
             previousDate: previousDate,
             nextDate: nextDate
         )
-        
+
         return gradeData
     }
 }
 
 //  1 - Time intervals are used instead of calender calculations because the algorithm does not care about dates.
-
-
-
