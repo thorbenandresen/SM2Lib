@@ -29,6 +29,7 @@ public enum SM2Error: Error, LocalizedError {
  * 5 - perfect response
  */
 
+
 public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
     /// complete blackout.
     case null
@@ -62,22 +63,22 @@ public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
     }
 }
 
+
 public protocol SM2GradeDataType {
     var repetition: Int { get }
     var interval: Int { get }
     var easinessFactor: Double { get }
-    var previousDate: TimeInterval? { get }
-    var nextDate: TimeInterval? { get }
+    var previousDate: TimeInterval { get }
+    var nextDate: TimeInterval { get }
 }
+
 
 public struct SM2GradeData: SM2GradeDataType {
     public var repetition: Int
     public var interval: Int
     public var easinessFactor: Double
-    public var previousDate: TimeInterval?
-    public var nextDate: TimeInterval?
-    
-//    public init() {}
+    public var previousDate: TimeInterval
+    public var nextDate: TimeInterval
     
     public init(
         repetition: Int = 0,
@@ -86,11 +87,26 @@ public struct SM2GradeData: SM2GradeDataType {
         previousDate: TimeInterval? = nil,
         nextDate: TimeInterval? = nil
     ) {
+        
+        let currentDate = Date().timeIntervalSince1970
+        
         self.repetition = repetition
         self.interval = interval
         self.easinessFactor = easinessFactor
-        self.previousDate = previousDate
-        self.nextDate = nextDate
+        
+        if
+            let previousDate = previousDate,
+            let nextDate = nextDate {
+            
+            self.previousDate = previousDate
+            self.nextDate = nextDate
+            
+        } else {
+            self.previousDate = currentDate
+               self.nextDate = currentDate
+        }
+        
+   
     }
 }
 
@@ -152,11 +168,8 @@ public struct SM2Engine {
         let extraDays = dayMultiplier * interval
         let newNextDatetime = currentDatetime + Double(extraDays)
         
-        //var previousDate: TimeInterval?
-        if let nextDate = gradeData.nextDate {
-           previousDate = nextDate
-        }
-        
+  
+        previousDate = gradeData.nextDate
         nextDate = newNextDatetime
         
         let gradeData = SM2GradeData(
