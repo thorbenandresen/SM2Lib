@@ -8,16 +8,16 @@
 import Foundation
 
 public enum SM2Error: Error, LocalizedError {
-    /// Grade is not valid valid
+    /// Grade is not valid
     case invalidGrade(Int)
-    
+
     public var errorDescription: String? {
         switch self {
         case .invalidGrade(let grade):
             return "Grade \(grade) is not valid"
         }
     }
-    
+
 }
 
 /**  Grades from SuperMemo Algorithm
@@ -41,7 +41,7 @@ public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
     case good
     /// perfect response
     case bright
-    
+
     public var description: String {
         switch self {
         case .null:
@@ -56,7 +56,7 @@ public enum SM2Grade: Int, CustomStringConvertible, CaseIterable {
             return NSLocalizedString("correct response after a hesitation", comment: "")
         case .bright:
             return NSLocalizedString("perfect response", comment: "")
-            
+
         }
     }
 }
@@ -77,7 +77,7 @@ public struct SM2CardParameter: SM2CardParameterType {
     public var easinessFactor: Double
     public var previousDate: TimeInterval
     public var nextDate: TimeInterval
-    
+
     /// Description
     /// - Parameters:
     ///   - repetition: card repetitions
@@ -92,31 +92,31 @@ public struct SM2CardParameter: SM2CardParameterType {
         previousDate: TimeInterval? = nil,
         nextDate: TimeInterval? = nil
     ) {
-        
+
         let currentDate = Date().timeIntervalSince1970
-        
+
         self.repetition = repetition
         self.interval = interval
         self.easinessFactor = easinessFactor
-        
+
         if
             let previousDate = previousDate,
             let nextDate = nextDate {
-            
+
             self.previousDate = previousDate
             self.nextDate = nextDate
-            
+
         } else {
             self.previousDate = currentDate
             self.nextDate = currentDate
         }
-        
+
     }
 }
 
 /// Namespaceing the SM2Engine bfor better readability
 public struct SM2Engine {
-    
+
     /// Updates SM2CardParameter based on SM2Grade
     /// - Parameters:
     ///   - cardParameter: SM2CardParameter
@@ -125,15 +125,15 @@ public struct SM2Engine {
     ///   - maxGrade: max grade possible
     /// - Returns: a new SM2CardParameter instance with the updated parameter
     public static func gradeFlashCard(cardParameter: SM2CardParameterType, grade: SM2Grade, currentDatetime: TimeInterval, maxGrade: Int = 5) -> SM2CardParameterType {
-        
+
         let rawGrade = grade.rawValue
-        
+
         let easinessFactor = calculateEasinessFactor(grade: rawGrade, maxGrade: maxGrade, previousEasinessFactor: cardParameter.easinessFactor)
         let repetition = calculateRepetition(grade: rawGrade, previousRepetition: cardParameter.repetition)
         let interval = calculateIntervalInDays(grade: rawGrade, repetition: repetition, easinessFactor: easinessFactor)
         let previousDate = cardParameter.nextDate
         let nextDate = addTimeIntervalToDate(intervalInDays: interval, timeInterval: currentDatetime)
-  
+
         let gradeData = SM2CardParameter(
             repetition: repetition,
             interval: interval,
@@ -141,44 +141,42 @@ public struct SM2Engine {
             previousDate: previousDate,
             nextDate: nextDate
         )
-        
+
         return gradeData
     }
-    
-    
+
     private static func calculateRepetition(grade: Int, previousRepetition: Int) -> Int {
-        
+
         if grade < 3 {
             return 0
         }
-        
+
         return previousRepetition + 1
     }
- 
-    
+
     private static func calculateEasinessFactor(grade: Int, maxGrade: Int, previousEasinessFactor: Double) -> Double {
-        
+
         if grade < 3 {
            return previousEasinessFactor
         }
-        
+
         var easinessFactor = 1.3
         let qualityFactor = Double(maxGrade - grade)
         let newEasinessFactor = previousEasinessFactor + (0.1 - qualityFactor * (0.08 + qualityFactor * 0.02))
-        
+
         if newEasinessFactor > easinessFactor {
             easinessFactor = newEasinessFactor
         }
-        
+
         return easinessFactor
     }
-    
-    private static func calculateIntervalInDays(grade: Int ,repetition: Int, easinessFactor: Double) -> Int {
-        
+
+    private static func calculateIntervalInDays(grade: Int, repetition: Int, easinessFactor: Double) -> Int {
+
         if grade <= 3 {
             return 0
         }
-        
+
         var interval: Int
         switch repetition {
         case 1:
@@ -190,8 +188,9 @@ public struct SM2Engine {
             interval = Int(newInterval)
         }
         return interval
-        
+
     }
+    
     /// Adds a time interval in days to a date
     /// Time intervals are used instead of calender calculations because the algorithm does not care about dates.
     private static func addTimeIntervalToDate(intervalInDays: Int, timeInterval: TimeInterval) -> TimeInterval {
@@ -201,8 +200,6 @@ public struct SM2Engine {
         let dayMultiplier = seconds * minutes * hours // 1
         let extraDays = dayMultiplier * intervalInDays
         return timeInterval + Double(extraDays)
-        
+
     }
 }
-
-
