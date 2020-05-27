@@ -1,0 +1,96 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 10,
+      "symbol": "SM2Error",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 11,
+      "symbol": "SM2Error.gradeOutOfRange(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 65,
+      "symbol": "SM2CardParameterType.repetition",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 66,
+      "symbol": "SM2CardParameterType.interval",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 67,
+      "symbol": "SM2CardParameterType.easinessFactor",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 68,
+      "symbol": "SM2CardParameterType.previousDate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 69,
+      "symbol": "SM2CardParameterType.nextDate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 74,
+      "symbol": "SM2CardParameter.repetition",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 75,
+      "symbol": "SM2CardParameter.interval",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 76,
+      "symbol": "SM2CardParameter.easinessFactor",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 77,
+      "symbol": "SM2CardParameter.previousDate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 78,
+      "symbol": "SM2CardParameter.nextDate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/thorbenandresen/Desktop/SM2Lib/Sources/SM2Lib/SM2Lib.swift",
+      "line": 116,
+      "symbol": "SM2Engine",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/thorbenandresen/Desktop/SM2Lib"
+}
